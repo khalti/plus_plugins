@@ -29,6 +29,7 @@ class Share {
   static Future<void> share(
     String text, {
     String? subject,
+    String? thumbPath,
     Rect? sharePositionOrigin,
   }) {
     assert(text.isNotEmpty);
@@ -36,6 +37,7 @@ class Share {
       text,
       subject: subject,
       sharePositionOrigin: sharePositionOrigin,
+      thumbPath: thumbPath,
     );
   }
 

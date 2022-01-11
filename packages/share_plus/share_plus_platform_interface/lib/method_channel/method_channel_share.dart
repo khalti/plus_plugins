@@ -23,12 +23,14 @@ class MethodChannelShare extends SharePlatform {
   Future<void> share(
     String text, {
     String? subject,
+    String? thumbPath,
     Rect? sharePositionOrigin,
   }) {
     assert(text.isNotEmpty);
     final params = <String, dynamic>{
       'text': text,
       'subject': subject,
+      'path': thumbPath,
     };
 
     if (sharePositionOrigin != null) {

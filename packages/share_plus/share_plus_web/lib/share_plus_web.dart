@@ -26,6 +26,7 @@ class SharePlusPlugin extends SharePlatform {
     String text, {
     String? subject,
     Rect? sharePositionOrigin,
+    String? thumbPath,
   }) async {
     try {
       await _navigator.share({'title': subject, 'text': text});

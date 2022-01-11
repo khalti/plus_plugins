@@ -111,15 +111,11 @@ class DemoAppState extends State<DemoApp> {
     // has its position and size after it's built.
     final box = context.findRenderObject() as RenderBox?;
 
-    if (imagePaths.isNotEmpty) {
-      await Share.shareFiles(imagePaths,
-          text: text,
-          subject: subject,
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    } else {
-      await Share.share(text,
-          subject: subject,
-          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
-    }
+    await Share.share(
+      text,
+      subject: subject,
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+      thumbPath: imagePaths.isEmpty ? null : imagePaths.first,
+    );
   }
 }

@@ -5,11 +5,14 @@
 package dev.fluttercommunity.plus.share;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import java.io.File;
@@ -49,7 +52,7 @@ class Share {
     this.activity = activity;
   }
 
-  void share(String text, String subject) {
+  void share(String text, String subject, String path) throws IOException {
     if (text == null || text.isEmpty()) {
       throw new IllegalArgumentException("Non-empty text expected");
     }
@@ -57,8 +60,15 @@ class Share {
     Intent shareIntent = new Intent();
     shareIntent.setAction(Intent.ACTION_SEND);
     shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+    shareIntent.putExtra(Intent.EXTRA_TITLE, subject);
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
     shareIntent.setType("text/plain");
+
+    if(path != null){
+       shareIntent.setClipData(ClipData.newRawUri("", getUriForPath(path)));
+       shareIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    }
+
     Intent chooserIntent = Intent.createChooser(shareIntent, null /* dialog title optional */);
     startActivity(chooserIntent);
   }
@@ -74,7 +84,7 @@ class Share {
 
     Intent shareIntent = new Intent();
     if (fileUris.isEmpty()) {
-      share(text, subject);
+      share(text, subject, null);
       return;
     } else if (fileUris.size() == 1) {
       shareIntent.setAction(Intent.ACTION_SEND);
@@ -120,21 +130,25 @@ class Share {
     }
   }
 
+  private Uri getUriForPath(String path) throws  IOException {
+    File file = new File(path);
+    if (fileIsInShareCache(file)) {
+      // If file was saved in '.../caches/share_plus' it will have been erased by 'clearShareCacheFolder();'
+      throw new IOException(
+              "File to share not allowed to be located in '"
+                      + getShareCacheFolder().getCanonicalPath()
+                      + "'");
+    }
+    file = copyToShareCacheFolder(file);
+
+    return FileProvider.getUriForFile(getContext(), providerAuthority, file);
+  }
+
   private ArrayList<Uri> getUrisForPaths(List<String> paths) throws IOException {
     ArrayList<Uri> uris = new ArrayList<>(paths.size());
 
     for (String path : paths) {
-      File file = new File(path);
-      if (fileIsInShareCache(file)) {
-        // If file was saved in '.../caches/share_plus' it will have been erased by 'clearShareCacheFolder();'
-        throw new IOException(
-            "File to share not allowed to be located in '"
-                + getShareCacheFolder().getCanonicalPath()
-                + "'");
-      }
-      file = copyToShareCacheFolder(file);
-
-      uris.add(FileProvider.getUriForFile(getContext(), providerAuthority, file));
+      uris.add(getUriForPath(path));
     }
 
     return uris;

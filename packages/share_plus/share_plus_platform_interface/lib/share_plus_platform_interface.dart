@@ -34,11 +34,13 @@ class SharePlatform extends PlatformInterface {
   Future<void> share(
     String text, {
     String? subject,
+    String? thumbPath,
     Rect? sharePositionOrigin,
   }) {
     return _instance.share(
       text,
       subject: subject,
+      thumbPath: thumbPath,
       sharePositionOrigin: sharePositionOrigin,
     );
   }

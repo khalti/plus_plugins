@@ -20,6 +20,7 @@ class ShareLinux extends SharePlatform {
     String text, {
     String? subject,
     Rect? sharePositionOrigin,
+    String? thumbPath,
   }) async {
     final queryParameters = {
       if (subject != null) 'subject': subject,
