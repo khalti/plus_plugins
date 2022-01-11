@@ -16,7 +16,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   share_plus_web:
-    path: ../
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_web
   http: ^0.12.2
   mockito: ^5.0.0
 

@@ -13,7 +13,9 @@ flutter:
 
 dependencies:
   share_plus_platform_interface:
-    path: ../share_plus_platform_interface
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_platform_interface
   url_launcher: ^6.0.1
   flutter:
     sdk: flutter

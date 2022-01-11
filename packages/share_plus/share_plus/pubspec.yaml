@@ -27,25 +27,31 @@ dependencies:
   flutter:
     sdk: flutter
   share_plus_platform_interface:
-    path: ../share_plus_platform_interface
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_platform_interface
   share_plus_linux:
-    path: ../share_plus_linux
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_linux
   share_plus_macos:
-    path: ../share_plus_macos
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_macos
   share_plus_windows:
-    path: ../share_plus_windows
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_windows
   share_plus_web:
-    path: ../share_plus_web
+    git:
+      url: https://github.com/sarbagyastha/plus_plugins.git
+      path: packages/share_plus/share_plus_web
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.4
-
-dependency_overrides:
-  share_plus_platform_interface:
-    path: ../share_plus_platform_interface
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
